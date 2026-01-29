@@ -23,6 +23,6 @@ extern int yylex();
 // Each time our lexer identifies a token, it stores its value
 // (if relevant for the token type) into yylval.
 extern TokenValue yylval;
-
+extern int removed_cnt;
 
 #endif

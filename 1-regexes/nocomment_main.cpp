@@ -29,7 +29,7 @@ int main () {
     }
   }
 
-  std::cout << "Number of comments and attributes removed: 0.\n";
+  std::cout << "Number of comments and attributes removed: " << removed_cnt << ".\n";
     
   return 0;
 }
