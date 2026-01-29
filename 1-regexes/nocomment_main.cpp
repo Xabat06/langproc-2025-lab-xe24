@@ -5,6 +5,7 @@
 
 // This is the yylval variable that the nocomment.hpp header file refers to.
 TokenValue yylval;
+extern int removed_cnt;
 
 int main () { 
 
