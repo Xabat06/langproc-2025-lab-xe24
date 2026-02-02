@@ -25,7 +25,7 @@
 %token T_LOG T_EXP T_SQRT
 %token T_NUMBER T_VARIABLE
 
-%type <expr> EXPR TERM UNARY FACTOR
+%type <expr> EXPR TERM POWER UNARY FACTOR
 %type <number> T_NUMBER
 %type <string> T_VARIABLE T_LOG T_EXP T_SQRT FUNCTION_NAME
 
@@ -49,9 +49,12 @@ EXPR : TERM           { $$ = $1; }
      | EXPR T_MINUS TERM { $$ = new SubOperator($1, $3); }
 
 /* TODO-4 : Add support (x * 6) and (z / 11). */
-TERM : UNARY          { $$ = $1; }
-     | TERM T_TIMES UNARY { $$ = new MulOperator($1, $3); }
-     | TERM T_DIVIDE UNARY { $$ = new DivOperator($1, $3); }
+TERM : POWER          { $$ = $1; }
+     | TERM T_TIMES POWER { $$ = new MulOperator($1, $3); }
+     | TERM T_DIVIDE POWER { $$ = new DivOperator($1, $3); }
+
+POWER : UNARY { $$ = $1; }
+      | UNARY T_EXPONENT POWER { $$ = new ExpOperator($1, $3); }
 
 /*  TODO-5 : Add support for (- 5) and (- x). You'll need to add production rules for the unary minus operator and create a NegOperator. */
 UNARY : FACTOR        { $$ = $1; }

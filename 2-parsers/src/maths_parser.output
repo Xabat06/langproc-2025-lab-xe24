@@ -1,0 +1,498 @@
+Nonterminals useless in grammar
+
+    FUNCTION_NAME
+
+
+Rules useless in grammar
+
+   18 FUNCTION_NAME: T_LOG
+   19              | T_EXP
+   20              | T_SQRT
+
+
+Grammar
+
+    0 $accept: ROOT $end
+
+    1 ROOT: EXPR
+
+    2 EXPR: TERM
+    3     | EXPR T_PLUS TERM
+    4     | EXPR T_MINUS TERM
+
+    5 TERM: POWER
+    6     | TERM T_TIMES POWER
+    7     | TERM T_DIVIDE POWER
+
+    8 POWER: UNARY
+    9      | UNARY T_EXPONENT POWER
+
+   10 UNARY: FACTOR
+   11      | T_MINUS FACTOR
+
+   12 FACTOR: T_NUMBER
+   13       | T_LBRACKET EXPR T_RBRACKET
+   14       | T_VARIABLE
+   15       | T_LOG T_LBRACKET EXPR T_RBRACKET
+   16       | T_EXP T_LBRACKET EXPR T_RBRACKET
+   17       | T_SQRT T_LBRACKET EXPR T_RBRACKET
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    T_TIMES (258) 6
+    T_DIVIDE (259) 7
+    T_PLUS (260) 3
+    T_MINUS (261) 4 11
+    T_EXPONENT (262) 9
+    T_LBRACKET (263) 13 15 16 17
+    T_RBRACKET (264) 13 15 16 17
+    T_LOG <string> (265) 15
+    T_EXP <string> (266) 16
+    T_SQRT <string> (267) 17
+    T_NUMBER <number> (268) 12
+    T_VARIABLE <string> (269) 14
+
+
+Nonterminals, with rules where they appear
+
+    $accept (15)
+        on left: 0
+    ROOT (16)
+        on left: 1
+        on right: 0
+    EXPR <expr> (17)
+        on left: 2 3 4
+        on right: 1 3 4 13 15 16 17
+    TERM <expr> (18)
+        on left: 5 6 7
+        on right: 2 3 4 6 7
+    POWER <expr> (19)
+        on left: 8 9
+        on right: 5 6 7 9
+    UNARY <expr> (20)
+        on left: 10 11
+        on right: 8 9
+    FACTOR <expr> (21)
+        on left: 12 13 14 15 16 17
+        on right: 10 11
+
+
+State 0
+
+    0 $accept: • ROOT $end
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    ROOT    go to state 8
+    EXPR    go to state 9
+    TERM    go to state 10
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 1
+
+   11 UNARY: T_MINUS • FACTOR
+
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    FACTOR  go to state 14
+
+
+State 2
+
+   13 FACTOR: T_LBRACKET • EXPR T_RBRACKET
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    EXPR    go to state 15
+    TERM    go to state 10
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 3
+
+   15 FACTOR: T_LOG • T_LBRACKET EXPR T_RBRACKET
+
+    T_LBRACKET  shift, and go to state 16
+
+
+State 4
+
+   16 FACTOR: T_EXP • T_LBRACKET EXPR T_RBRACKET
+
+    T_LBRACKET  shift, and go to state 17
+
+
+State 5
+
+   17 FACTOR: T_SQRT • T_LBRACKET EXPR T_RBRACKET
+
+    T_LBRACKET  shift, and go to state 18
+
+
+State 6
+
+   12 FACTOR: T_NUMBER •
+
+    $default  reduce using rule 12 (FACTOR)
+
+
+State 7
+
+   14 FACTOR: T_VARIABLE •
+
+    $default  reduce using rule 14 (FACTOR)
+
+
+State 8
+
+    0 $accept: ROOT • $end
+
+    $end  shift, and go to state 19
+
+
+State 9
+
+    1 ROOT: EXPR •
+    3 EXPR: EXPR • T_PLUS TERM
+    4     | EXPR • T_MINUS TERM
+
+    T_PLUS   shift, and go to state 20
+    T_MINUS  shift, and go to state 21
+
+    $default  reduce using rule 1 (ROOT)
+
+
+State 10
+
+    2 EXPR: TERM •
+    6 TERM: TERM • T_TIMES POWER
+    7     | TERM • T_DIVIDE POWER
+
+    T_TIMES   shift, and go to state 22
+    T_DIVIDE  shift, and go to state 23
+
+    $default  reduce using rule 2 (EXPR)
+
+
+State 11
+
+    5 TERM: POWER •
+
+    $default  reduce using rule 5 (TERM)
+
+
+State 12
+
+    8 POWER: UNARY •
+    9      | UNARY • T_EXPONENT POWER
+
+    T_EXPONENT  shift, and go to state 24
+
+    $default  reduce using rule 8 (POWER)
+
+
+State 13
+
+   10 UNARY: FACTOR •
+
+    $default  reduce using rule 10 (UNARY)
+
+
+State 14
+
+   11 UNARY: T_MINUS FACTOR •
+
+    $default  reduce using rule 11 (UNARY)
+
+
+State 15
+
+    3 EXPR: EXPR • T_PLUS TERM
+    4     | EXPR • T_MINUS TERM
+   13 FACTOR: T_LBRACKET EXPR • T_RBRACKET
+
+    T_PLUS      shift, and go to state 20
+    T_MINUS     shift, and go to state 21
+    T_RBRACKET  shift, and go to state 25
+
+
+State 16
+
+   15 FACTOR: T_LOG T_LBRACKET • EXPR T_RBRACKET
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    EXPR    go to state 26
+    TERM    go to state 10
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 17
+
+   16 FACTOR: T_EXP T_LBRACKET • EXPR T_RBRACKET
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    EXPR    go to state 27
+    TERM    go to state 10
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 18
+
+   17 FACTOR: T_SQRT T_LBRACKET • EXPR T_RBRACKET
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    EXPR    go to state 28
+    TERM    go to state 10
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 19
+
+    0 $accept: ROOT $end •
+
+    $default  accept
+
+
+State 20
+
+    3 EXPR: EXPR T_PLUS • TERM
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    TERM    go to state 29
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 21
+
+    4 EXPR: EXPR T_MINUS • TERM
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    TERM    go to state 30
+    POWER   go to state 11
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 22
+
+    6 TERM: TERM T_TIMES • POWER
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    POWER   go to state 31
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 23
+
+    7 TERM: TERM T_DIVIDE • POWER
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    POWER   go to state 32
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 24
+
+    9 POWER: UNARY T_EXPONENT • POWER
+
+    T_MINUS     shift, and go to state 1
+    T_LBRACKET  shift, and go to state 2
+    T_LOG       shift, and go to state 3
+    T_EXP       shift, and go to state 4
+    T_SQRT      shift, and go to state 5
+    T_NUMBER    shift, and go to state 6
+    T_VARIABLE  shift, and go to state 7
+
+    POWER   go to state 33
+    UNARY   go to state 12
+    FACTOR  go to state 13
+
+
+State 25
+
+   13 FACTOR: T_LBRACKET EXPR T_RBRACKET •
+
+    $default  reduce using rule 13 (FACTOR)
+
+
+State 26
+
+    3 EXPR: EXPR • T_PLUS TERM
+    4     | EXPR • T_MINUS TERM
+   15 FACTOR: T_LOG T_LBRACKET EXPR • T_RBRACKET
+
+    T_PLUS      shift, and go to state 20
+    T_MINUS     shift, and go to state 21
+    T_RBRACKET  shift, and go to state 34
+
+
+State 27
+
+    3 EXPR: EXPR • T_PLUS TERM
+    4     | EXPR • T_MINUS TERM
+   16 FACTOR: T_EXP T_LBRACKET EXPR • T_RBRACKET
+
+    T_PLUS      shift, and go to state 20
+    T_MINUS     shift, and go to state 21
+    T_RBRACKET  shift, and go to state 35
+
+
+State 28
+
+    3 EXPR: EXPR • T_PLUS TERM
+    4     | EXPR • T_MINUS TERM
+   17 FACTOR: T_SQRT T_LBRACKET EXPR • T_RBRACKET
+
+    T_PLUS      shift, and go to state 20
+    T_MINUS     shift, and go to state 21
+    T_RBRACKET  shift, and go to state 36
+
+
+State 29
+
+    3 EXPR: EXPR T_PLUS TERM •
+    6 TERM: TERM • T_TIMES POWER
+    7     | TERM • T_DIVIDE POWER
+
+    T_TIMES   shift, and go to state 22
+    T_DIVIDE  shift, and go to state 23
+
+    $default  reduce using rule 3 (EXPR)
+
+
+State 30
+
+    4 EXPR: EXPR T_MINUS TERM •
+    6 TERM: TERM • T_TIMES POWER
+    7     | TERM • T_DIVIDE POWER
+
+    T_TIMES   shift, and go to state 22
+    T_DIVIDE  shift, and go to state 23
+
+    $default  reduce using rule 4 (EXPR)
+
+
+State 31
+
+    6 TERM: TERM T_TIMES POWER •
+
+    $default  reduce using rule 6 (TERM)
+
+
+State 32
+
+    7 TERM: TERM T_DIVIDE POWER •
+
+    $default  reduce using rule 7 (TERM)
+
+
+State 33
+
+    9 POWER: UNARY T_EXPONENT POWER •
+
+    $default  reduce using rule 9 (POWER)
+
+
+State 34
+
+   15 FACTOR: T_LOG T_LBRACKET EXPR T_RBRACKET •
+
+    $default  reduce using rule 15 (FACTOR)
+
+
+State 35
+
+   16 FACTOR: T_EXP T_LBRACKET EXPR T_RBRACKET •
+
+    $default  reduce using rule 16 (FACTOR)
+
+
+State 36
+
+   17 FACTOR: T_SQRT T_LBRACKET EXPR T_RBRACKET •
+
+    $default  reduce using rule 17 (FACTOR)
